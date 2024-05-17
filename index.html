@@ -205,7 +205,7 @@
             message += `\n\n_Sistema desenvolvido por Vista Linda Software._`;
 
             const phoneNumber = labPhones[lab];
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
 
             document.getElementById('confirmation').style.display = 'block';
