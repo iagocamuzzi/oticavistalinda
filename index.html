@@ -109,13 +109,13 @@
             <label for="addition">Adição:</label>
             <input type="text" id="addition" name="addition" disabled>
 
-            <div class="checkbox-container">
+            <div class="radio-container">
                 <label>
-                    <input type="checkbox" id="resin" name="material" value="Resina">
+                    <input type="radio" name="material" value="Resina" required>
                     Resina
                 </label>
                 <label>
-                    <input type="checkbox" id="polycarbonate" name="material" value="Policarbonato">
+                    <input type="radio" name="material" value="Policarbonato" required>
                     Policarbonato
                 </label>
             </div>
@@ -187,10 +187,7 @@
             const lensType = document.querySelector('input[name="lensType"]:checked').value;
             const lab = document.getElementById('lab').value;
 
-            let materials = [];
-            if (document.getElementById('resin').checked) materials.push('Resina');
-            if (document.getElementById('polycarbonate').checked) materials.push('Policarbonato');
-            materials = materials.join(', ');
+            let material = document.querySelector('input[name="material"]:checked').value;
 
             let lensTypeSpecific = [];
             document.querySelectorAll('input[name="lensTypeSpecific"]:checked').forEach((checkbox) => {
@@ -198,7 +195,7 @@
             });
             lensTypeSpecific = lensTypeSpecific.join(', ');
 
-            let message = `Pedido de Lentes:\n\nNúmero TSO: ${tsoNumber}\nOD: ${rightEye}\nOE: ${leftEye}\nMaterial: ${materials}\nTipo de Lente: ${lensType}\nTipo de Lente Específico: ${lensTypeSpecific}`;
+            let message = `Pedido de Lentes:\n\nNúmero TSO: ${tsoNumber}\nOD: ${rightEye}\nOE: ${leftEye}\nMaterial: ${material}\nTipo de Lente: ${lensType}\nTipo de Lente Específico: ${lensTypeSpecific}`;
             if (lensType === 'Multifocal') {
                 message += `\nAdição: ${addition}`;
             }
