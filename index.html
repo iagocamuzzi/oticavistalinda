@@ -74,6 +74,12 @@
         button:hover {
             background-color: #45a049;
         }
+        .print-button {
+            background-color: #2196F3;
+        }
+        .print-button:hover {
+            background-color: #1E88E5;
+        }
         .confirmation {
             text-align: center;
             color: green;
@@ -167,6 +173,7 @@
             </select>
 
             <button type="button" onclick="sendOrder()">Enviar Pedido</button>
+            <button type="button" class="print-button" onclick="printOrder()">Imprimir Pedido</button>
         </form>
         <div id="confirmation" class="confirmation">
             Pedido enviado com sucesso!
@@ -219,6 +226,56 @@
                 document.getElementById('confirmation').style.display = 'none';
                 location.reload();
             }, 3000); // Aguarda 3 segundos antes de recarregar a página
+        }
+
+        function printOrder() {
+            const tsoNumber = document.getElementById('tsoNumber').value;
+            const rightEye = document.getElementById('rightEye').value;
+            const leftEye = document.getElementById('leftEye').value;
+            const addition = document.getElementById('addition').value;
+            const lensType = document.querySelector('input[name="lensType"]:checked').value;
+            const lab = document.getElementById('lab').value;
+
+            let material = document.querySelector('input[name="material"]:checked').value;
+
+            let lensTypeSpecific = [];
+            document.querySelectorAll('input[name="lensTypeSpecific"]:checked').forEach((checkbox) => {
+                lensTypeSpecific.push(checkbox.value);
+            });
+            lensTypeSpecific = lensTypeSpecific.join(', ');
+
+            let printContent = `
+                <div>
+                    <h3>Pedido de Lentes</h3>
+                    <p><strong>Número TSO:</strong> ${tsoNumber}</p>
+                    <p><strong>OD:</strong> ${rightEye}</p>
+                    <p><strong>OE:</strong> ${leftEye}</p>
+                    <p><strong>Material:</strong> ${material}</p>
+                    <p><strong>Tipo de Lente:</strong> ${lensType}</p>
+                    <p><strong>Tipo de Lente Específico:</strong> ${lensTypeSpecific}</p>
+            `;
+            if (lensType === 'Multifocal') {
+                printContent += `<p><strong>Adição:</strong> ${addition}</p>`;
+            }
+            printContent += `
+                    <p><strong>Laboratório:</strong> ${lab}</p>
+                    <p><em>Sistema desenvolvido por Vista Linda Software.</em></p>
+                </div>
+            `;
+
+            const printWindow = window.open('', '', 'width=400,height=600');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Imprimir Pedido</title>
+                </head>
+                <body>
+                    ${printContent}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
         }
     </script>
 </body>
