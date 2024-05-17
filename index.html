@@ -10,30 +10,38 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
         .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            box-sizing: border-box;
         }
         h1 {
             text-align: center;
             color: #333;
+            margin: 10px 0;
         }
         label {
             display: block;
-            margin: 15px 0 5px;
+            margin-top: 10px;
             color: #333;
         }
         input[type="text"], select {
-            width: calc(100% - 16px);
-            padding: 8px;
+            width: calc(100% - 10px);
+            padding: 6px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
         }
         .radio-container, .checkbox-container, .lens-type-container {
             display: flex;
@@ -45,10 +53,11 @@
             width: 48%;
             display: flex;
             align-items: center;
+            margin-top: 5px;
             cursor: pointer;
         }
         .radio-container input, .checkbox-container input, .lens-type-container input {
-            margin-right: 10px;
+            margin-right: 5px;
         }
         button {
             display: block;
@@ -59,8 +68,8 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 20px;
             font-size: 16px;
+            margin-top: 10px;
         }
         button:hover {
             background-color: #45a049;
@@ -68,7 +77,8 @@
         .confirmation {
             text-align: center;
             color: green;
-            margin-top: 20px;
+            margin-top: 10px;
+            display: none;
         }
     </style>
 </head>
@@ -146,19 +156,21 @@
                 <option value="" disabled selected>Selecione o laboratório</option>
                 <option value="ARTLENTES">ARTLENTES</option>
                 <option value="CPS">CPS</option>
+                <option value="ZION">ZION</option>
             </select>
 
             <button type="button" onclick="sendOrder()">Enviar Pedido</button>
         </form>
-        <div id="confirmation" class="confirmation" style="display: none;">
+        <div id="confirmation" class="confirmation">
             Pedido enviado com sucesso!
         </div>
     </div>
 
     <script>
         const labPhones = {
-            "ARTLENTES": "5527996000790", // Número do WhatsApp do ARTLENTES
-            "CPS": "5527996000790"        // Número do WhatsApp do CPS
+            "ARTLENTES": "5527996926215", // Número do WhatsApp do ARTLENTES
+            "CPS": "5527997569296",       // Número do WhatsApp do CPS
+            "ZION": "5527995895678"       // Número do WhatsApp do ZION
         };
 
         function toggleAdditionField() {
