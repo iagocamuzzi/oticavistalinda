@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Lentes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #333;
+        }
+        input[type="text"], select {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .radio-container, .checkbox-container, .lens-type-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .radio-container label, .checkbox-container label, .lens-type-container label {
+            width: 48%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .radio-container input, .checkbox-container input, .lens-type-container input {
+            margin-right: 10px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .confirmation {
+            text-align: center;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pedido de Lentes</h1>
+        <form id="lensOrderForm">
+            <div class="radio-container">
+                <label>
+                    <input type="radio" name="lensType" value="Visão Simples" onclick="toggleAdditionField()" required>
+                    Visão Simples
+                </label>
+                <label>
+                    <input type="radio" name="lensType" value="Multifocal" onclick="toggleAdditionField()">
+                    Multifocal
+                </label>
+            </div>
+
+            <label for="tsoNumber">Número TSO:</label>
+            <input type="text" id="tsoNumber" name="tsoNumber" required>
+
+            <label for="rightEye">OD:</label>
+            <input type="text" id="rightEye" name="rightEye" required>
+
+            <label for="leftEye">OE:</label>
+            <input type="text" id="leftEye" name="leftEye" required>
+
+            <label for="addition">Adição:</label>
+            <input type="text" id="addition" name="addition" disabled>
+
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="resin" name="material" value="Resina">
+                    Resina
+                </label>
+                <label>
+                    <input type="checkbox" id="polycarbonate" name="material" value="Policarbonato">
+                    Policarbonato
+                </label>
+            </div>
+
+            <div class="lens-type-container">
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="AR">
+                    AR
+                </label>
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="AR BLUE VERDE">
+                    AR BLUE VERDE
+                </label>
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="AR BLUE AZUL">
+                    AR BLUE AZUL
+                </label>
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="AR FOTO">
+                    AR FOTO
+                </label>
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="AR FOTO BLUE">
+                    AR FOTO BLUE
+                </label>
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="INCOLOR">
+                    INCOLOR
+                </label>
+                <label>
+                    <input type="checkbox" name="lensTypeSpecific" value="FOTO">
+                    FOTO
+                </label>
+            </div>
+
+            <label for="lab">Selecionar Laboratório:</label>
+            <select id="lab" name="lab" required>
+                <option value="" disabled selected>Selecione o laboratório</option>
+                <option value="ARTLENTES">ARTLENTES</option>
+                <option value="CPS">CPS</option>
+            </select>
+
+            <button type="button" onclick="sendOrder()">Enviar Pedido</button>
+        </form>
+        <div id="confirmation" class="confirmation" style="display: none;">
+            Pedido enviado com sucesso!
+        </div>
+    </div>
+
+    <script>
+        const labPhones = {
+            "ARTLENTES": "5527996000790", // Número do WhatsApp do ARTLENTES
+            "CPS": "5527996000790"        // Número do WhatsApp do CPS
+        };
+
+        function toggleAdditionField() {
+            const additionField = document.getElementById('addition');
+            const lensType = document.querySelector('input[name="lensType"]:checked').value;
+            additionField.disabled = lensType !== 'Multifocal';
+        }
+
+        function sendOrder() {
+            const tsoNumber = document.getElementById('tsoNumber').value;
+            const rightEye = document.getElementById('rightEye').value;
+            const leftEye = document.getElementById('leftEye').value;
+            const addition = document.getElementById('addition').value;
+            const lensType = document.querySelector('input[name="lensType"]:checked').value;
+            const lab = document.getElementById('lab').value;
+
+            let materials = [];
+            if (document.getElementById('resin').checked) materials.push('Resina');
+            if (document.getElementById('polycarbonate').checked) materials.push('Policarbonato');
+            materials = materials.join(', ');
+
+            let lensTypeSpecific = [];
+            document.querySelectorAll('input[name="lensTypeSpecific"]:checked').forEach((checkbox) => {
+                lensTypeSpecific.push(checkbox.value);
+            });
+            lensTypeSpecific = lensTypeSpecific.join(', ');
+
+            let message = `Pedido de Lentes:\n\nNúmero TSO: ${tsoNumber}\nOD: ${rightEye}\nOE: ${leftEye}\nMaterial: ${materials}\nTipo de Lente: ${lensType}\nTipo de Lente Específico: ${lensTypeSpecific}`;
+            if (lensType === 'Multifocal') {
+                message += `\nAdição: ${addition}`;
+            }
+            message += `\n\n_Sistema desenvolvido por Vista Linda Software._`;
+
+            const phoneNumber = labPhones[lab];
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+
+            document.getElementById('confirmation').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('confirmation').style.display = 'none';
+                location.reload();
+            }, 3000); // Aguarda 3 segundos antes de recarregar a página
+        }
+    </script>
+</body>
+</html>
